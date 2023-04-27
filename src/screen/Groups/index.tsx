@@ -5,6 +5,7 @@ import { Highlight } from '../../components/Highlight';
 import * as S from './styles';
 import { FlatList } from 'react-native';
 import { ListEmpty } from '../../components/ListEmpty';
+import { Button } from '../../components/Button';
 
 export function Groups() {
   const [groups, setGroups] = useState<string[]>([]);
@@ -22,6 +23,7 @@ export function Groups() {
           <ListEmpty message="Vocë ainda não possui nenhuma turma" />
         )}
       />
+      <Button title="Criar nova turma" />
     </S.Container>
   );
 }
