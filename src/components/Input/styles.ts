@@ -12,8 +12,4 @@ export const Container = styled(TextInput)`
   padding: 16px;
   font-family: ${(props) => props.theme.FONT_FAMILY.REGULAR};
   font-size: ${(props) => props.theme.FONT_SIZE.MD}px;
-
-  &::placeholder {
-    color: ${(props) => props.theme.COLORS.GRAY_300};
-  }
 `;

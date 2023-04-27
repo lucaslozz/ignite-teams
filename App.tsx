@@ -9,6 +9,7 @@ import { Groups } from './src/screen/Groups';
 import { Loading } from './src/components/Loading';
 import { StatusBar } from 'react-native';
 import { NewGroup } from './src/screen/NewGroup';
+import { Players } from './src/screen/Players';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -19,7 +20,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <NewGroup /> : <Loading />}
+      {fontsLoaded ? <Players /> : <Loading />}
     </ThemeProvider>
   );
 }
