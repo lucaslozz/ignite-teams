@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GroupCard } from '../../GroupCard';
+import { GroupCard } from '../../components/GroupCard';
 import { Header } from '../../components/Header';
 import { Highlight } from '../../components/Highlight';
 import * as S from './styles';
