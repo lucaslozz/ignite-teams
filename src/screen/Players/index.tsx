@@ -10,15 +10,24 @@ import { useState } from 'react';
 import { PlayerCard } from '../../components/PlayerCard';
 import { ListEmpty } from '../../components/ListEmpty';
 import { Button } from '../../components/Button';
+import { useRoute } from '@react-navigation/native';
+
+interface ParamsProps {
+  group: string;
+}
 
 export function Players() {
   const [team, setTeam] = useState("Time A")
   const [players, setPlayers] = useState(["King"])
+  const { params } = useRoute()
+
+  const { group } = params as ParamsProps
+
   return (
     <Container>
       <Header showBackButton />
       <Highlight
-        title="Nome da Turma"
+        title={group}
         subtitle="Adicione a galera e separe os times"
       />
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { GroupCard } from '../../components/GroupCard';
 import { Header } from '../../components/Header';
 import { Highlight } from '../../components/Highlight';
@@ -9,6 +10,12 @@ import { Button } from '../../components/Button';
 
 export function Groups() {
   const [groups, setGroups] = useState<string[]>([]);
+
+  const { navigate } = useNavigation()
+
+  function handleNewGroup() {
+    navigate("new")
+  }
 
   return (
     <S.Container>
@@ -23,7 +30,7 @@ export function Groups() {
           <ListEmpty message="Vocë ainda não possui nenhuma turma" />
         )}
       />
-      <Button title="Criar nova turma" />
+      <Button title="Criar nova turma" onPress={handleNewGroup} />
     </S.Container>
   );
 }
