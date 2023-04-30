@@ -5,11 +5,9 @@ import {
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
 import theme from './src/theme';
-import { Groups } from './src/screen/Groups';
 import { Loading } from './src/components/Loading';
 import { StatusBar } from 'react-native';
-import { NewGroup } from './src/screen/NewGroup';
-import { Players } from './src/screen/Players';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -20,7 +18,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Players /> : <Loading />}
+      {fontsLoaded ? <Routes /> : <Loading />}
     </ThemeProvider>
   );
 }
