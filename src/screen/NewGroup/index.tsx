@@ -5,10 +5,16 @@ import { Highlight } from '../../components/Highlight';
 import { Input } from '../../components/Input';
 import { Container, Content, UserIcon } from './styles';
 import { useState } from 'react';
+import { groupCreate } from '../../storage/group/groupCreate';
 
 export function NewGroup() {
   const [group, setGroup] = useState('')
   const { navigate } = useNavigation()
+
+  async function handleNew() {
+    await groupCreate(group)
+    navigate("players", { group })
+  }
 
   return (
     <Container>
@@ -22,7 +28,7 @@ export function NewGroup() {
         <Input
           placeholder='Nome da Turma'
           onChangeText={(text) => setGroup(text)} />
-        <Button title="Criar" style={{ marginTop: 20 }} onPress={() => navigate("players", { group })} />
+        <Button title="Criar" style={{ marginTop: 20 }} onPress={handleNew} />
       </Content>
     </Container>
   );
