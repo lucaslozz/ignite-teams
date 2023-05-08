@@ -6,9 +6,10 @@ export const Container = styled(SafeAreaView)`
   flex: 1;
   background: ${(props) => props.theme.COLORS.GRAY_600};
   padding: 24px;
+  justify-content: center;
 `;
 
-export const Content = styled(SafeAreaView)`
+export const Content = styled.View`
   flex: 1;
   justify-content: center;
 `;
