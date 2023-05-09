@@ -6,7 +6,7 @@ import { Input } from '../../components/Input';
 import { Alert, FlatList } from 'react-native';
 
 import { Container, Form, HeaderList, PlayersNumber } from './styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PlayerCard } from '../../components/PlayerCard';
 import { ListEmpty } from '../../components/ListEmpty';
 import { Button } from '../../components/Button';
@@ -14,6 +14,8 @@ import { useRoute } from '@react-navigation/native';
 import { AppError } from '../../utils/AppError';
 import { playerAddByGroup } from '../../storage/players/playerAddByGroup';
 import { playersGetByGroup } from '../../storage/players/playersGetByGroup';
+import { playersGetByGroupAndTeam } from '../../storage/players/playerGetByGroupAndTeam';
+import { PlayerStorageDTO } from '../../storage/players/PlayerStorageDTO';
 
 interface ParamsProps {
   group: string;
@@ -22,7 +24,7 @@ interface ParamsProps {
 export function Players() {
   const [newPlayerName, setNewPlayerName] = useState("")
   const [team, setTeam] = useState("Time A")
-  const [players, setPlayers] = useState(["King"])
+  const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
   const { params } = useRoute()
 
   const { group } = params as ParamsProps
@@ -39,6 +41,8 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, group)
+      fetchPlayersByTeam()
+      setNewPlayerName("")
 
     }
     catch (error) {
@@ -50,6 +54,21 @@ export function Players() {
       }
     }
   }
+
+  async function fetchPlayersByTeam() {
+    try {
+      const playersByTeam = await playersGetByGroupAndTeam(group, team)
+      setPlayers(playersByTeam)
+    }
+    catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    fetchPlayersByTeam()
+
+  }, [players])
 
   return (
     <Container>
@@ -64,6 +83,7 @@ export function Players() {
           placeholder='Nome da pessoa'
           autoCorrect={false}
           onChangeText={setNewPlayerName}
+          value={newPlayerName}
         />
         <ButtonIcon icon={'add'} onPress={handleAddPlayer} />
       </Form>
@@ -89,8 +109,8 @@ export function Players() {
 
       <FlatList
         data={players}
-        keyExtractor={item => item}
-        renderItem={({ item }) => (<PlayerCard name={item} onRemove={() => { }} />)}
+        keyExtractor={item => item.name}
+        renderItem={({ item }) => (<PlayerCard name={item.name} onRemove={() => { }} />)}
         ListEmptyComponent={() => <ListEmpty message='Não há pessoas nesse time' />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[{ paddingBottom: 100 }, players.length === 0 && { flex: 1 }]}
