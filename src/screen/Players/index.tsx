@@ -3,17 +3,16 @@ import { Filter } from '../../components/Filter';
 import { Header } from '../../components/Header';
 import { Highlight } from '../../components/Highlight';
 import { Input } from '../../components/Input';
-import { Alert, FlatList } from 'react-native';
+import { Alert, FlatList, TextInput } from 'react-native';
 
 import { Container, Form, HeaderList, PlayersNumber } from './styles';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PlayerCard } from '../../components/PlayerCard';
 import { ListEmpty } from '../../components/ListEmpty';
 import { Button } from '../../components/Button';
 import { useRoute } from '@react-navigation/native';
 import { AppError } from '../../utils/AppError';
 import { playerAddByGroup } from '../../storage/players/playerAddByGroup';
-import { playersGetByGroup } from '../../storage/players/playersGetByGroup';
 import { playersGetByGroupAndTeam } from '../../storage/players/playerGetByGroupAndTeam';
 import { PlayerStorageDTO } from '../../storage/players/PlayerStorageDTO';
 
@@ -29,6 +28,8 @@ export function Players() {
 
   const { group } = params as ParamsProps
 
+  const newPlayerNameInputRef = useRef<TextInput>(null)
+
   async function handleAddPlayer() {
     if (newPlayerName.trim().length === 0) {
       return Alert.alert("Nova pessoa", "informe o nome da pessoa para adicionar.")
@@ -41,6 +42,8 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, group)
+
+      newPlayerNameInputRef.current?.blur()
       fetchPlayersByTeam()
       setNewPlayerName("")
 
@@ -80,10 +83,13 @@ export function Players() {
 
       <Form>
         <Input
+          inputRef={newPlayerNameInputRef}
           placeholder='Nome da pessoa'
           autoCorrect={false}
           onChangeText={setNewPlayerName}
           value={newPlayerName}
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType='done'
         />
         <ButtonIcon icon={'add'} onPress={handleAddPlayer} />
       </Form>
