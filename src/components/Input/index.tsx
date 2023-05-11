@@ -4,7 +4,7 @@ import { TextInput, TextInputProps } from 'react-native';
 import { RefObject } from 'react';
 
 interface InputProps extends TextInputProps {
-  inputRef: RefObject<TextInput>
+  inputRef?: RefObject<TextInput>
 }
 
 export function Input({ inputRef, ...rest }: InputProps) {
